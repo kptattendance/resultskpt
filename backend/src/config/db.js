@@ -1,25 +1,37 @@
-import mysql from "mysql2";
+import sql from "mssql";
 import dotenv from "dotenv";
 
 dotenv.config();
-const pool = mysql.createPool({
-  host: process.env.MYSQL_HOST,
-  user: process.env.MYSQL_USER,
-  password: process.env.MYSQL_PASSWORD,
-  database: process.env.MYSQL_DATABASE,
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0,
-});
 
-// test connection
-pool.getConnection((err, connection) => {
-  if (err) {
-    console.error("❌ MySQL connection failed:", err.message);
-  } else {
-    console.log("✅ MySQL connected successfully");
-    connection.release();
-  }
-});
+const config = {
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  server: process.env.DB_SERVER,
+  port: Number(process.env.DB_PORT),
 
-export default pool.promise();
+  options: {
+    encrypt: false, // IMPORTANT for SQL Server 2012
+    trustServerCertificate: true, // avoid SSL issues
+  },
+
+  pool: {
+    max: 10,
+    min: 0,
+    idleTimeoutMillis: 30000,
+  },
+};
+
+// Create pool
+const poolPromise = new sql.ConnectionPool(config)
+  .connect()
+  .then((pool) => {
+    console.log("✅ SQL Server connected successfully");
+    return pool;
+  })
+  .catch((err) => {
+    console.error("❌ SQL Server connection failed:", err.message);
+    process.exit(1);
+  });
+
+export { sql, poolPromise };

@@ -13,7 +13,7 @@ export default function WaitMessagePage() {
           </p>
 
           <p className="text-xl font-extrabold text-red-700 mb-6">
-            🗓️ 29 January 2026 &nbsp;•&nbsp; ⏰ 3:00 PM
+            🗓️ 30 January 2026 &nbsp;•&nbsp; ⏰ 10:30 AM
           </p>
 
           <p className="text-sm text-gray-700 leading-relaxed">
