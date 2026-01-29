@@ -1,6 +1,7 @@
 "use client";
 
 import CheckResultPage from "./check-result/page";
+import WaitMessagePage from "./wait-message/page";
 
 export default function HomePage() {
   return (
@@ -79,19 +80,10 @@ export default function HomePage() {
         {/* RIGHT – FORM PANEL */}
         <section className="flex justify-center items-center bg-gray-100 px-6 py-12">
           <div className="w-full max-w-md bg-white rounded-xl shadow-xl border border-gray-200">
-            {/* PANEL HEADER */}
-            <div className="px-6 py-4 border-b bg-gray-50 rounded-t-xl">
-              <h3 className="text-lg font-semibold text-gray-800 text-center">
-                Result Verification
-              </h3>
-              <p className="text-xs text-gray-600 text-center mt-1">
-                Enter your Register Number to view your result
-              </p>
-            </div>
-
             {/* FORM */}
             <div className="p-6">
-              <CheckResultPage />
+              <WaitMessagePage />
+              {/* <CheckResultPage /> */}
             </div>
 
             {/* PANEL FOOTER */}

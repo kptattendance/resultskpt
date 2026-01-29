@@ -6,7 +6,7 @@ import api from "../lib/axios";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 
-export default function CheckResultPage() {
+export default function WaitMessagePage() {
   const [regNo, setRegNo] = useState("");
   const [resultData, setResultData] = useState(null);
   const [showPdf, setShowPdf] = useState(false);
@@ -68,39 +68,31 @@ export default function CheckResultPage() {
 
   return (
     <>
-      <div className="px-6 py-4 border-b bg-gray-50 rounded-t-xl">
-        <h3 className="text-lg font-semibold text-gray-800 text-center">
-          Result Verification
-        </h3>
-        <p className="text-xs text-gray-600 text-center mt-1">
-          Enter your Register Number to view your result
-        </p>
-        {/* FORM */}{" "}
+      <div>
+        <div className="w-full max-w-xl bg-white text-black shadow-md p-1 mx-auto  text-center">
+          <h1 className="text-2xl font-bold mb-4 text-indigo-900">
+            📢 Result Announcement
+          </h1>
+
+          <p className="text-lg font-semibold mb-3">
+            Results will be displayed on
+          </p>
+
+          <p className="text-xl font-bold text-red-700 mb-6">
+            🗓️ 29-01-2026 at ⏰ 3:00 PM
+          </p>
+
+          <p className="text-base text-gray-700">
+            Please wait patiently. 🌱 Hard work always pays off — and success is
+            loading!
+          </p>
+
+          <p className="mt-6 text-sm font-semibold text-green-700">
+            💐 All the best… and congratulations in advance!
+          </p>
+        </div>
       </div>
-      <div className="w-full max-w-xl bg-white text-black shadow-md p-8 mx-auto mt-2">
-        <h1 className="text-xl font-bold text-center mb-6 underline">
-          Check Your Result
-        </h1>
 
-        <form onSubmit={handleSubmit}>
-          <label className="block font-medium mb-2">Register Number</label>
-
-          <input
-            type="text"
-            value={regNo}
-            onChange={(e) => setRegNo(e.target.value.toUpperCase())}
-            className="w-full border border-gray-400 px-4 py-2 text-lg tracking-wider focus:outline-none"
-            placeholder="Type your reg no here"
-          />
-
-          <button
-            type="submit"
-            className="mt-6 w-full py-2 bg-gray-900 text-white font-semibold tracking-wide hover:bg-black"
-          >
-            VIEW RESULT
-          </button>
-        </form>
-      </div>
       {/* 🔥 PDF MODAL */}
       {showPdf && resultData && (
         <div className="fixed inset-0 bg-black/60 z-50 flex justify-center items-center">
