@@ -12,8 +12,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "KPT Mangaluru",
-  description: "Results",
+  title: "Examination Results | KPT Mangaluru",
+  description:
+    "Official results portal of Karnataka (Govt.) Polytechnic, Mangaluru.",
 };
 
 export default function RootLayout({ children }) {
