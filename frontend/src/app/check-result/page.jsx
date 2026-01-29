@@ -37,9 +37,8 @@ export default function CheckResultPage() {
       const response = await api.get(`/results/${regNo}`);
 
       Swal.close();
-
       setResultData(response.data);
-      setShowPdf(true); // 🔥 OPEN PDF MODAL DIRECTLY
+      setShowPdf(true);
     } catch (error) {
       Swal.fire({
         icon: "error",
@@ -68,6 +67,7 @@ export default function CheckResultPage() {
 
   return (
     <>
+      {/* FORM HEADER */}
       <div className="px-6 py-4 border-b bg-gray-50 rounded-t-xl">
         <h3 className="text-lg font-semibold text-gray-800 text-center">
           Result Verification
@@ -75,10 +75,11 @@ export default function CheckResultPage() {
         <p className="text-xs text-gray-600 text-center mt-1">
           Enter your Register Number to view your result
         </p>
-        {/* FORM */}{" "}
       </div>
-      <div className="w-full max-w-xl bg-white text-black shadow-md p-8 mx-auto mt-2">
-        <h1 className="text-xl font-bold text-center mb-6 underline">
+
+      {/* FORM BODY */}
+      <div className="w-full bg-white text-black p-6">
+        <h1 className="text-lg font-semibold text-center mb-4">
           Check Your Result
         </h1>
 
@@ -89,23 +90,24 @@ export default function CheckResultPage() {
             type="text"
             value={regNo}
             onChange={(e) => setRegNo(e.target.value.toUpperCase())}
-            className="w-full border border-gray-400 px-4 py-2 text-lg tracking-wider focus:outline-none"
-            placeholder="Type your reg no here"
+            className="w-full border border-gray-300 rounded px-4 py-2 text-base tracking-wider focus:outline-none focus:ring-2 focus:ring-gray-800"
+            placeholder="Enter Register Number"
           />
 
           <button
             type="submit"
-            className="mt-6 w-full py-2 bg-gray-900 text-white font-semibold tracking-wide hover:bg-black"
+            className="mt-5 w-full py-2.5 bg-gray-900 text-white font-semibold tracking-wide rounded hover:bg-black"
           >
-            VIEW RESULT
+            View Result
           </button>
         </form>
       </div>
-      {/* 🔥 PDF MODAL */}
+
+      {/* PDF MODAL */}
       {showPdf && resultData && (
         <div className="fixed inset-0 bg-black/60 z-50 flex justify-center items-center">
           <div className="bg-white text-black w-[90%] max-w-4xl rounded-lg shadow-xl relative">
-            {/* HEADER */}
+            {/* MODAL HEADER */}
             <div className="flex justify-between items-center px-6 py-3 border-b">
               <h2 className="font-semibold">Result PDF Preview</h2>
               <button
@@ -116,13 +118,13 @@ export default function CheckResultPage() {
               </button>
             </div>
 
-            {/* BODY */}
+            {/* MODAL BODY */}
             <div className="p-6 max-h-[75vh] overflow-auto">
               <div
                 ref={pdfRef}
                 className="text-[13px] leading-relaxed text-gray-900"
               >
-                {/* HEADER */}
+                {/* PDF HEADER */}
                 <div className="text-center mb-6">
                   <h2 className="text-lg font-bold text-red-700 tracking-wide">
                     KARNATAKA (GOVT.) POLYTECHNIC, MANGALURU
@@ -137,7 +139,7 @@ export default function CheckResultPage() {
                 </div>
 
                 {/* STUDENT INFO */}
-                <div className="grid grid-cols-2 gap-x-12 gap-y-3 mb-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-3 mb-6">
                   <div>
                     <span className="font-semibold">Programme:</span>{" "}
                     {resultData.student.programme}
@@ -151,36 +153,55 @@ export default function CheckResultPage() {
                     {resultData.student.name}
                   </div>
                   <div>
-                    <span className="font-semibold">Date of Result:</span>{" "}
-                    {resultData.student.result_date}
+                    <span className="font-semibold">Father Name:</span>{" "}
+                    {resultData.student.father_name}
                   </div>
                 </div>
 
-                {/* SUBJECT LIST HEADER */}
-                <div className="grid grid-cols-12 font-semibold text-xs uppercase text-gray-600 mb-2">
-                  <div className="col-span-2">Code</div>
-                  <div className="col-span-6">Course Title</div>
-                  <div className="col-span-2 text-center">Credits</div>
-                  <div className="col-span-2 text-center">Total</div>
-                </div>
-
-                {/* SUBJECT LIST */}
-                <div className="space-y-2">
-                  {resultData.subjects.map((s, i) => (
-                    <div
-                      key={i}
-                      className="grid grid-cols-12 items-start py-2 border-b border-gray-200 last:border-none"
-                    >
-                      <div className="col-span-2 font-medium">
-                        {s.subject_code}
-                      </div>
-                      <div className="col-span-6">{s.subject_name}</div>
-                      <div className="col-span-2 text-center">{s.credits}</div>
-                      <div className="col-span-2 text-center font-medium">
-                        {s.total_marks}
-                      </div>
+                {/* SUBJECT TABLE (SCROLLABLE ON MOBILE) */}
+                <div className="overflow-x-auto">
+                  <div className="min-w-[650px]">
+                    {/* TABLE HEADER */}
+                    <div className="grid grid-cols-14 font-semibold text-xs uppercase text-red-600 mb-2">
+                      <div className="col-span-2">Code</div>
+                      <div className="col-span-6">Course Title</div>
+                      <div className="col-span-2 text-center">Credits</div>
+                      <div className="col-span-2 text-center">Total</div>
+                      <div className="col-span-2 text-center">Result</div>
                     </div>
-                  ))}
+
+                    {/* TABLE ROWS */}
+                    {resultData.subjects.map((s, i) => (
+                      <div
+                        key={i}
+                        className="grid grid-cols-14 items-start py-2 border-b border-gray-200 last:border-none text-sm"
+                      >
+                        <div className="col-span-2 font-medium">
+                          {s.subject_code}
+                        </div>
+
+                        <div className="col-span-6">{s.subject_name}</div>
+
+                        <div className="col-span-2 text-center">
+                          {s.credits}
+                        </div>
+
+                        <div className="col-span-2 text-center font-medium">
+                          {s.total_marks}
+                        </div>
+
+                        <div
+                          className={`col-span-2 text-center font-semibold ${
+                            s.result === "PASS"
+                              ? "text-green-700"
+                              : "text-red-700"
+                          }`}
+                        >
+                          {s.result}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
 
                 {/* FOOT NOTE */}
@@ -193,7 +214,7 @@ export default function CheckResultPage() {
               </div>
             </div>
 
-            {/* FOOTER */}
+            {/* MODAL FOOTER */}
             <div className="flex justify-end gap-4 px-6 py-3 border-t">
               <button
                 onClick={() => setShowPdf(false)}
